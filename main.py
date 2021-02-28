@@ -45,6 +45,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+class TORPEDO(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect = self.image.get_rect()
+        self.rect.center = (WIDTH / 2, HEIGHT / 1.300 )
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
 clock = pygame.time.Clock()
@@ -58,6 +63,9 @@ all_sprites.add(apple)
 all_sprites2= pygame.sprite.Group()
 player = Player()
 all_sprites2.add(player)
+all_sprites3= pygame.sprite.Group()
+torpedo = TORPEDO()
+all_sprites3.add(torpedo)
 while running:
 
     # Держим цикл на правильной скорости
@@ -68,10 +76,14 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     screen.blit(background_image, (0, 0))
-    all_sprites.update()
     all_sprites2.update()
     all_sprites.draw(screen)
     all_sprites2.draw(screen)
+    all_sprites3.draw(screen)
+    keystate = pygame.key.get_pressed()
+    if keystate[pygame.K_SPACE]:
+        all_sprites.update()
+
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 pygame.quit()
