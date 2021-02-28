@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
-            self.speedx = -150
+            self.player_speed_x = -self.move_speed
         if keystate[pygame.K_RIGHT]:
             self.speedx = 150
         self.rect.x += self.speedx
@@ -48,8 +48,11 @@ class Player(pygame.sprite.Sprite):
 class TORPEDO(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((10, 30))
+        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 1.300 )
+        self.rect.center = (WIDTH / 2, HEIGHT / 2)
+        
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
 clock = pygame.time.Clock()
@@ -79,10 +82,11 @@ while running:
     all_sprites2.update()
     all_sprites.draw(screen)
     all_sprites2.draw(screen)
-    all_sprites3.draw(screen)
+
     keystate = pygame.key.get_pressed()
     if keystate[pygame.K_SPACE]:
         all_sprites.update()
+        all_sprites3.draw(screen)
 
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
