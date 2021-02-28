@@ -1,11 +1,13 @@
 import pygame
 import os
+import random
+import time
 WIDTH=1161
 HEIGHT=650
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, 'images')
 apple_img = pygame.image.load(os.path.join(img_folder, 'USA.png'))
-buscet_img = pygame.image.load(os.path.join(img_folder, 'Player.png'))
+buscet_img = pygame.image.load(os.path.join(img_folder, 'player.png'))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -15,18 +17,13 @@ class USA(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = apple_img
-        self.image.set_colorkey(BLUE)
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 2)
-"""   def update(self):
-
-        a = random.randint(1, 1230)
-        self.rect.y += 40
-        c=random.randint(1,2)
-        """"""if c==1:
-            self.rect.x -= 20
-        if c==2:
-            self.rect.x += 20"""
+        self.rect.center = (WIDTH / 28, HEIGHT / 4)
+    def update(self):
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_SPACE]:
+            self.rect.x += 100
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -71,7 +68,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     screen.blit(background_image, (0, 0))
-
+    all_sprites.update()
+    all_sprites2.update()
     all_sprites.draw(screen)
     all_sprites2.draw(screen)
     # После отрисовки всего, переворачиваем экран
