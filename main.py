@@ -6,7 +6,7 @@ WIDTH=1161
 HEIGHT=650
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, 'images')
-apple_img = pygame.image.load(os.path.join(img_folder, 'USA.png'))
+apple_img = pygame.image.load(os.path.join(img_folder, 'Vrag.png'))
 buscet_img = pygame.image.load(os.path.join(img_folder, 'player.png'))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -36,22 +36,16 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.speedx = 0
         keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_LEFT]:
-            self.player_speed_x = -self.move_speed
-        if keystate[pygame.K_RIGHT]:
-            self.speedx = 150
+        if keystate[pygame.K_DOWN]:
+            self.speedy = -150
+        if keystate[pygame.K_UP]:
+            self.speedy = 150
         self.rect.x += self.speedx
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
-class TORPEDO(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((10, 30))
-        self.image.fill(GREEN)
-        self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 2)
+
         
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
@@ -66,9 +60,7 @@ all_sprites.add(apple)
 all_sprites2= pygame.sprite.Group()
 player = Player()
 all_sprites2.add(player)
-all_sprites3= pygame.sprite.Group()
-torpedo = TORPEDO()
-all_sprites3.add(torpedo)
+
 while running:
 
     # Держим цикл на правильной скорости
@@ -81,12 +73,12 @@ while running:
     screen.blit(background_image, (0, 0))
     all_sprites2.update()
     all_sprites.draw(screen)
-    all_sprites2.draw(screen)
+
 
     keystate = pygame.key.get_pressed()
     if keystate[pygame.K_SPACE]:
         all_sprites.update()
-        all_sprites3.draw(screen)
+
 
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
