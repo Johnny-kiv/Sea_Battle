@@ -1,19 +1,20 @@
 import pygame
 import os
-import random
+import time
 import random
 import time
 WIDTH=1161
 HEIGHT=650
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, 'images')
-apple_img = pygame.image.load(os.path.join(img_folder, 'Vrag.xcf'))
+apple_img = pygame.image.load(os.path.join(img_folder, 'gm_ship.png'))
 buscet_img = pygame.image.load(os.path.join(img_folder, 'player.png'))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+
 class USA(pygame.sprite.Sprite):
     def __init__(self):
         a=random.randint(1,9)
@@ -24,9 +25,12 @@ class USA(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / b, HEIGHT / a)
     def update(self):
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_SPACE]:
-            self.rect.x += 100
+        y=random.randint(10,600)
+        x = random.randint(10, 1150)
+        """keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_SPACE]:"""
+        self.rect.y = y
+        self.rect.x = x
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -40,22 +44,31 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_DOWN]:
-            self.rect.y += 30
+            self.rect.y += 50
         if keystate[pygame.K_UP]:
-            self.rect.y += -30
+            self.rect.y += -50
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > 650:
             self.rect.bottom = 650
+class Torpedo(pygame.sprite.Sprite):
+    def __init__(self):
+        xp=player.rect.x
+        yp = player.rect.y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        self.rect.center = (xp, yp     )
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
 clock = pygame.time.Clock()
 background_image = pygame.image.load('images/Sea.png')
 all_sprites = pygame.sprite.Group()
 running = True
-FPS=10
+FPS=5
 all_sprites = pygame.sprite.Group()
 apple = USA()
 all_sprites.add(apple)
@@ -78,10 +91,13 @@ while running:
     all_sprites2.draw(screen)
 
     keystate = pygame.key.get_pressed()
-    if keystate[pygame.K_SPACE]:
-        all_sprites.update()
 
+    all_sprites.update()
 
+    if keystate[pygame.K_DOWN]:
+        all_sprites3 = pygame.sprite.Group()
+        torpedo = Torpedo()
+        all_sprites3.add(torpedo)
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 pygame.quit()
