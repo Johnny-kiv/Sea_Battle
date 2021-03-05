@@ -64,6 +64,7 @@ class Torpedo(pygame.sprite.Sprite):
         self.rect.center = (xp, yp)
     def update(self):
         self.rect.x +=900
+def touch():
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
