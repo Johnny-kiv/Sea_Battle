@@ -19,6 +19,7 @@ class USA(pygame.sprite.Sprite):
     def __init__(self):
         a=random.randint(1,9)
         b=random.randint(6,9)
+
         pygame.sprite.Sprite.__init__(self)
         self.image = apple_img
         self.image.set_colorkey(WHITE)
@@ -27,13 +28,12 @@ class USA(pygame.sprite.Sprite):
     def update(self):
         y=random.randint(10,600)
         x = random.randint(10, 1150)
-        """keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_SPACE]:"""
         self.rect.y = y
         self.rect.x = x
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
+
         pygame.sprite.Sprite.__init__(self)
         self.image = buscet_img
         self.image.set_colorkey(WHITE)
@@ -55,13 +55,16 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = 650
 class Torpedo(pygame.sprite.Sprite):
     def __init__(self):
-        xp=player.rect.x
-        yp = player.rect.y
+        xp=player.rect.x+150
+        yp=player.rect.y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 50))
+        self.image = pygame.Surface((50, 10))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        self.rect.center = (xp, yp     )
+        self.rect.center = (xp, yp)
+    def update(self):
+        self.rect.x +=900
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
 clock = pygame.time.Clock()
@@ -89,15 +92,17 @@ while running:
     all_sprites2.update()
     all_sprites.draw(screen)
     all_sprites2.draw(screen)
-
+    all_sprites.update()
     keystate = pygame.key.get_pressed()
 
-    all_sprites.update()
 
-    if keystate[pygame.K_DOWN]:
+
+    if keystate[pygame.K_SPACE]:
         all_sprites3 = pygame.sprite.Group()
         torpedo = Torpedo()
         all_sprites3.add(torpedo)
+        all_sprites3.update()
+        all_sprites3.draw(screen)
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 pygame.quit()
