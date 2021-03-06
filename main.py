@@ -2,7 +2,6 @@ import pygame
 import os
 import time
 import random
-import time
 WIDTH=1161
 HEIGHT=650
 game_folder = os.path.dirname(__file__)
@@ -30,6 +29,7 @@ class Ship(pygame.sprite.Sprite):
         x = random.randint(10, 1150)
         self.rect.y = y
         self.rect.x = x
+
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -65,13 +65,13 @@ class Torpedo(pygame.sprite.Sprite):
     def update(self):
         self.rect.x +=900
 def touch():
-    xa1 = ship.rect.x
-    xa2 = ship.rect.x - 10
-    xk1 = player.rect.x - 76.5
-    xk2 = player.rect.x + 76.5
-    ya = ship.rect.y - 50
-    yk = player.rect.y - 47.5
-    if ya <= yk and xa1 >= xk1 and xa1 <= xk2:
+    xa1=apple.rect.x
+    xa2=apple.rect.x-51
+    xk1=player.rect.x-76.5
+    xk2=player.rect.x+76.5
+    ya=apple.rect.y-52
+    yk=player.rect.y-47.5
+    if ya<=yk and  xa1>=xk1  and xa1<=xk2:
         return True
     else:
         return False
@@ -81,7 +81,7 @@ clock = pygame.time.Clock()
 background_image = pygame.image.load('images/Sea.png')
 all_sprites = pygame.sprite.Group()
 running = True
-FPS=5
+FPS=2
 all_sprites = pygame.sprite.Group()
 ship = Ship()
 all_sprites.add(ship)
@@ -113,6 +113,8 @@ while running:
         all_sprites3.add(torpedo)
         all_sprites3.update()
         all_sprites3.draw(screen)
+        if touch():
+            print("Есть касание")
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 pygame.quit()
