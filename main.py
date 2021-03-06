@@ -15,7 +15,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-class USA(pygame.sprite.Sprite):
+class Ship(pygame.sprite.Sprite):
     def __init__(self):
         a=random.randint(1,9)
         b=random.randint(6,9)
@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = 650
 class Torpedo(pygame.sprite.Sprite):
     def __init__(self):
-        xp=player.rect.x+150
+        xp=player.rect.x
         yp=player.rect.y
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 10))
@@ -65,7 +65,16 @@ class Torpedo(pygame.sprite.Sprite):
     def update(self):
         self.rect.x +=900
 def touch():
-
+    xa1 = ship.rect.x
+    xa2 = ship.rect.x - 10
+    xk1 = player.rect.x - 76.5
+    xk2 = player.rect.x + 76.5
+    ya = ship.rect.y - 50
+    yk = player.rect.y - 47.5
+    if ya <= yk and xa1 >= xk1 and xa1 <= xk2:
+        return True
+    else:
+        return False
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Basket")
 clock = pygame.time.Clock()
@@ -74,8 +83,8 @@ all_sprites = pygame.sprite.Group()
 running = True
 FPS=5
 all_sprites = pygame.sprite.Group()
-apple = USA()
-all_sprites.add(apple)
+ship = Ship()
+all_sprites.add(ship)
 all_sprites2= pygame.sprite.Group()
 player = Player()
 all_sprites2.add(player)
