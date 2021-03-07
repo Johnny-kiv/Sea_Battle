@@ -121,7 +121,7 @@ all_sprites5.add(bad)
 distance=0
 victory=0
 miss=0
-fontObj = pygame.font.Font('freesansbold.ttf',26)
+
 while running:
 
     # Держим цикл на правильной скорости
@@ -153,7 +153,7 @@ while running:
         if touch():
             distance=0
             victory=victory+1
-
+    fontObj = pygame.font.Font('freesansbold.ttf', 26)
     textSurfaceObj = fontObj.render(str(miss), True, BLACK, RED)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
@@ -161,7 +161,7 @@ while running:
 
     textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
     textRectObj = textSurfaceObj.get_rect()
-    textRectObj.center = (50, 50)
+    textRectObj.center = (1150, 50)
     screen.blit(textSurfaceObj, textRectObj)
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
