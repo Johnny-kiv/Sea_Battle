@@ -8,8 +8,11 @@ game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, 'images')
 apple_img = pygame.image.load(os.path.join(img_folder, 'gm_ship.png'))
 buscet_img = pygame.image.load(os.path.join(img_folder, 'player.png'))
+good_img = pygame.image.load(os.path.join(img_folder, 'good.png'))
+bad_img = pygame.image.load(os.path.join(img_folder, 'bad.png'))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREY=(160,160,160)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
@@ -31,9 +34,7 @@ class Ship(pygame.sprite.Sprite):
         self.rect.x = x
 
 class Player(pygame.sprite.Sprite):
-
     def __init__(self):
-
         pygame.sprite.Sprite.__init__(self)
         self.image = buscet_img
         self.image.set_colorkey(WHITE)
@@ -55,15 +56,38 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = 650
 class Torpedo(pygame.sprite.Sprite):
     def __init__(self):
+        global xp
         xp=player.rect.x
+        global yp
         yp=player.rect.y
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 10))
-        self.image.fill(GREEN)
+        self.image.fill(GREY)
         self.rect = self.image.get_rect()
         self.rect.center = (xp, yp)
     def update(self):
         self.rect.x +=distance
+
+
+class Good(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        a1 = random.randint(1, 9)
+        self.image = good_img
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.center = (50, 50)
+
+class Bad(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        a1 = random.randint(1, 9)
+        self.image = bad_img
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.center = (1100, 50)
 def touch():
     xa1=torpedo.rect.y
     xa2=torpedo.rect.y-5
@@ -81,14 +105,23 @@ clock = pygame.time.Clock()
 background_image = pygame.image.load('images/Sea.png')
 all_sprites = pygame.sprite.Group()
 running = True
-FPS=2
+FPS=10
 all_sprites = pygame.sprite.Group()
 ship = Ship()
 all_sprites.add(ship)
 all_sprites2= pygame.sprite.Group()
 player = Player()
 all_sprites2.add(player)
+all_sprites4= pygame.sprite.Group()
+good = Good()
+all_sprites4.add(good)
+all_sprites5= pygame.sprite.Group()
+bad = Bad()
+all_sprites5.add(bad)
 distance=0
+victory=0
+miss=0
+fontObj = pygame.font.Font('freesansbold.ttf',26)
 while running:
 
     # Держим цикл на правильной скорости
@@ -103,19 +136,33 @@ while running:
     all_sprites.draw(screen)
     all_sprites2.draw(screen)
     all_sprites.update()
+    all_sprites4.draw(screen)
+    all_sprites5.draw(screen)
     keystate = pygame.key.get_pressed()
-
-
-
     if keystate[pygame.K_SPACE]:
-        distance = distance + 1
+        distance = distance + 50
         all_sprites3 = pygame.sprite.Group()
         torpedo = Torpedo()
         all_sprites3.add(torpedo)
         all_sprites3.update()
+        if torpedo.rect.x>WIDTH:
+            torpedo.rect.center = (xp, yp)
+            miss=miss+1
+
         all_sprites3.draw(screen)
         if touch():
-            print("Есть касание")
+            distance=0
+            victory=victory+1
+
+    textSurfaceObj = fontObj.render(str(miss), True, BLACK, RED)
+    textRectObj = textSurfaceObj.get_rect()
+    textRectObj.center = (50, 50)
+    screen.blit(textSurfaceObj, textRectObj)
+
+    textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
+    textRectObj = textSurfaceObj.get_rect()
+    textRectObj.center = (50, 50)
+    screen.blit(textSurfaceObj, textRectObj)
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 pygame.quit()
