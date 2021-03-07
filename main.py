@@ -63,15 +63,15 @@ class Torpedo(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (xp, yp)
     def update(self):
-        self.rect.x +=900
+        self.rect.x +=distance
 def touch():
-    xa1=apple.rect.x
-    xa2=apple.rect.x-51
-    xk1=player.rect.x-76.5
-    xk2=player.rect.x+76.5
-    ya=apple.rect.y-52
-    yk=player.rect.y-47.5
-    if ya<=yk and  xa1>=xk1  and xa1<=xk2:
+    xa1=torpedo.rect.y
+    xa2=torpedo.rect.y-5
+    xk1=ship.rect.y-34.5
+    xk2=ship.rect.y+34.5
+    ya=torpedo.rect.x-50
+    yk=ship.rect.x-25
+    if ya<=yk and  xa2>=xk1  and xa2<=xk2:
         return True
     else:
         return False
@@ -88,7 +88,7 @@ all_sprites.add(ship)
 all_sprites2= pygame.sprite.Group()
 player = Player()
 all_sprites2.add(player)
-
+distance=0
 while running:
 
     # Держим цикл на правильной скорости
@@ -108,6 +108,7 @@ while running:
 
 
     if keystate[pygame.K_SPACE]:
+        distance = distance + 1
         all_sprites3 = pygame.sprite.Group()
         torpedo = Torpedo()
         all_sprites3.add(torpedo)
