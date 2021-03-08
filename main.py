@@ -6,7 +6,8 @@ WIDTH=1161
 HEIGHT=650
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, 'images')
-apple_img = pygame.image.load(os.path.join(img_folder, 'gm_ship.png'))
+enemy_img = pygame.image.load(os.path.join(img_folder, 'gm_ship.png'))
+explosion_img = pygame.image.load(os.path.join(img_folder, 'explosion1.png'))
 buscet_img = pygame.image.load(os.path.join(img_folder, 'player.png'))
 good_img = pygame.image.load(os.path.join(img_folder, 'good.png'))
 bad_img = pygame.image.load(os.path.join(img_folder, 'bad.png'))
@@ -23,7 +24,7 @@ class Ship(pygame.sprite.Sprite):
         b=random.randint(6,9)
 
         pygame.sprite.Sprite.__init__(self)
-        self.image = apple_img
+        self.image = enemy_img
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / b, HEIGHT / a)
@@ -102,7 +103,7 @@ clock = pygame.time.Clock()
 background_image = pygame.image.load('images/Sea.png')
 all_sprites = pygame.sprite.Group()
 running = True
-FPS=1.4
+FPS=1.5
 all_sprites = pygame.sprite.Group()
 ship = Ship()
 all_sprites.add(ship)
@@ -115,7 +116,7 @@ all_sprites4.add(good)
 all_sprites5= pygame.sprite.Group()
 bad = Bad()
 all_sprites5.add(bad)
-distance=2
+distance=0
 victory=0
 miss=0
 """fontObj = pygame.font.Font('freesansbold.ttf', 26)"""
@@ -138,7 +139,7 @@ while running:
     all_sprites5.draw(screen)
     keystate = pygame.key.get_pressed()
     if keystate[pygame.K_SPACE]:
-        distance = distance + 50
+        distance = distance + 350
         all_sprites3 = pygame.sprite.Group()
         torpedo = Torpedo()
         all_sprites3.add(torpedo)
@@ -152,7 +153,9 @@ while running:
             distance=0
             victory=victory+1
             print(victory)
-
+            ship.image = enemy_img
+            ship.rect = ship.image.get_rect()
+            time.sleep(1)
     """textSurfaceObj = fontObj.render(str(miss), True, BLACK, RED)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
