@@ -57,9 +57,9 @@ class Player(pygame.sprite.Sprite):
 class Torpedo(pygame.sprite.Sprite):
     def __init__(self):
         global xp
-        xp=player.rect.x
+        xp=player.rect.x+130
         global yp
-        yp=player.rect.y
+        yp=player.rect.y+15
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 10))
         self.image.fill(GREY)
@@ -146,14 +146,15 @@ while running:
         all_sprites3.add(torpedo)
         all_sprites3.update()
         if torpedo.rect.x>WIDTH:
-            torpedo.rect.center = (xp, yp)
+            distance=0
             miss=miss+1
 
         all_sprites3.draw(screen)
         if touch():
             distance=0
             victory=victory+1
-    fontObj = pygame.font.Font('freesansbold.ttf', 26)
+            print(victory)
+    """fontObj = pygame.font.Font('freesansbold.ttf', 26)
     textSurfaceObj = fontObj.render(str(miss), True, BLACK, RED)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
@@ -162,7 +163,7 @@ while running:
     textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (1150, 50)
-    screen.blit(textSurfaceObj, textRectObj)
+    screen.blit(textSurfaceObj, textRectObj)"""
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 pygame.quit()
