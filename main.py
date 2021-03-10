@@ -15,9 +15,8 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY=(160,160,160)
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-
+GGREEN = (0, 255, 0)
+BLUE = (0, 38, 255)
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
         a=random.randint(1,9)
@@ -33,6 +32,7 @@ class Ship(pygame.sprite.Sprite):
         x = random.randint(10, 1150)
         self.rect.y = y
         self.rect.x = x
+        time.sleep(1)
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -62,12 +62,17 @@ class Torpedo(pygame.sprite.Sprite):
         yp=player.rect.y+15
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 10))
-        self.image.fill(GREY)
+        global a
+        a=50
+        self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         self.rect.center = (xp, yp)
     def update(self):
-        self.rect.x +=distance
 
+        b=0
+        for b in range(900):
+            self.image = pygame.Surface((a + 50, 10))
+            self.image.fill(BLUE)
 class Good(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -103,7 +108,7 @@ clock = pygame.time.Clock()
 background_image = pygame.image.load('images/Sea.png')
 all_sprites = pygame.sprite.Group()
 running = True
-FPS=1.5
+FPS=100
 all_sprites = pygame.sprite.Group()
 ship = Ship()
 all_sprites.add(ship)
@@ -116,7 +121,7 @@ all_sprites4.add(good)
 all_sprites5= pygame.sprite.Group()
 bad = Bad()
 all_sprites5.add(bad)
-distance=0
+
 victory=0
 miss=0
 """fontObj = pygame.font.Font('freesansbold.ttf', 26)"""
@@ -139,18 +144,15 @@ while running:
     all_sprites5.draw(screen)
     keystate = pygame.key.get_pressed()
     if keystate[pygame.K_SPACE]:
-        distance = distance + 350
         all_sprites3 = pygame.sprite.Group()
         torpedo = Torpedo()
         all_sprites3.add(torpedo)
         all_sprites3.update()
+        all_sprites3.draw(screen)
         if torpedo.rect.x>WIDTH:
-            distance=0
             miss=miss+1
 
-        all_sprites3.draw(screen)
         if touch():
-            distance=0
             victory=victory+1
             print(victory)
             ship.image = enemy_img
