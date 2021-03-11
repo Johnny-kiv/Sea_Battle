@@ -45,9 +45,9 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_DOWN]:
-            self.rect.y += 50
+            self.rect.y += 100
         if keystate[pygame.K_UP]:
-            self.rect.y += -50
+            self.rect.y += -100
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.top < 0:
@@ -62,17 +62,18 @@ class Torpedo(pygame.sprite.Sprite):
         yp=player.rect.y+15
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 10))
-        global a
-        a=50
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         self.rect.center = (xp, yp)
     def update(self):
-
-        b=0
-        for b in range(900):
-            self.image = pygame.Surface((a + 50, 10))
-            self.image.fill(BLUE)
+        xp=player.rect.x
+        xs=ship.rect.x
+        if xp<xs:
+            len=xs-xp
+        if xs<xp:
+            len=xp-xs
+        self.image = pygame.Surface((len, 10))
+        self.image.fill(BLUE)
 class Good(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -155,9 +156,12 @@ while running:
         if touch():
             victory=victory+1
             print(victory)
-            ship.image = enemy_img
+            ship.image = explosion_img
             ship.rect = ship.image.get_rect()
-            time.sleep(1)
+            time.sleep(3)
+        ship.image=enemy_img
+        ship.rect= ship.image.get_rect()
+
     """textSurfaceObj = fontObj.render(str(miss), True, BLACK, RED)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
