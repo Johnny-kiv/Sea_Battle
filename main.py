@@ -29,7 +29,7 @@ class Ship(pygame.sprite.Sprite):
         self.rect.center = (WIDTH / b, HEIGHT / a)
     def update(self):
         y=random.randint(10,600)
-        x = random.randint(10, 1150)
+        x = random.randint(100, 1150)
         self.rect.y = y
         self.rect.x = x
         time.sleep(0.500)
