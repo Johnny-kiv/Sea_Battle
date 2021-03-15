@@ -15,7 +15,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY=(160,160,160)
 RED = (255, 0, 0)
-GGREEN = (0, 255, 0)
+GREEN = (0, 255, 0)
 BLUE = (0, 38, 255)
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
@@ -32,7 +32,7 @@ class Ship(pygame.sprite.Sprite):
         x = random.randint(10, 1150)
         self.rect.y = y
         self.rect.x = x
-        time.sleep(1)
+        time.sleep(0.500)
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
