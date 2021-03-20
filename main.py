@@ -1,5 +1,6 @@
 import pygame
 import os
+import time
 pygame.init()
 
 WHITE = (255, 255, 255)
@@ -41,9 +42,19 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (1000 / 6, 600 / 2)
     def update(self):
-        self.rect.x -= 1
+        self.rect.x -= 10
         if self.rect.left> 0:
             self.rect.left = 500
+class  Torpedo(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50, 10))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        self.rect.center = (player.rect.x+175, player.rect.y+10)
+    def update(self):
+        self.speedx=0
+        self.speedx = 150
 screen = pygame.display.set_mode((1000, 600))
 FPS = 60
 flRunning = True
@@ -69,7 +80,15 @@ while flRunning:
 
     sprite_player.update()
     sprite_enemy.update()
+    keystate = pygame.key.get_pressed()
+    if keystate[pygame.K_SPACE]:
+        torpedo_sprite= pygame.sprite.Group()
+        torpedo=Torpedo()
+        torpedo_sprite.add(torpedo)
+        torpedo_sprite.update()
+        torpedo_sprite.draw(screen)
     sprite_player.draw(screen)
     sprite_enemy.draw(screen)
+
     pygame.display.flip()
 pygame.quit()
