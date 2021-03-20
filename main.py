@@ -20,7 +20,19 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.center = (1000 / 2, 600 / 2)
+        self.rect.center = (1000 / 6, 600 / 2)
+    def update(self):
+        self.speedy = 0
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_UP]:
+            self.rect.y -= 1
+        if keystate[pygame.K_DOWN]:
+            self.rect.y += 1
+        self.rect.x += self.speedy
+        if self.rect.bottom > 600:
+            self.rect.bottom = 600
+        if self.rect.top < 0:
+            self.rect.top = 0
 
 screen = pygame.display.set_mode((1000, 600))
 FPS = 60
@@ -39,7 +51,7 @@ while flRunning:
             flRunning = False
     screen.blit(background_image, (0, 0))
 
-
+    sprite_player.update()
     sprite_player.draw(screen)
     pygame.display.flip()
 pygame.quit()
