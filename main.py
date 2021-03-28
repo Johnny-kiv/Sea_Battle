@@ -1,4 +1,5 @@
 import pygame
+import random
 import os
 import time
 pygame.init()
@@ -36,25 +37,52 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
+        a=random.randint(0,600)
         pygame.sprite.Sprite.__init__(self)
         self.image = enemy_img
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.center = (1000 / 6, 600 / 2)
+        self.rect.center = (1000 / 6, 600 / a)
     def update(self):
-        self.rect.x -= 10
-        if self.rect.left> 0:
-            self.rect.left = 500
+        b=random.randint(0,600)
+        self.rect.x -= 1
+        if self.rect.x<0:
+            self.rect.x=1000
+            self.rect.y=b
 class  Torpedo(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 10))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        self.rect.center = (player.rect.x+175, player.rect.y+10)
+        self.rect.center = (player.rect.x+175, player.rect.y+15)
     def update(self):
-        self.speedx=0
-        self.speedx = 150
+        self.rect.x += 1
+        if self.rect.x > 1000:
+            torpedo.rect.center = (player.rect.x + 175, player.rect.y + 15)
+def touch_t():
+    xe1=enemy.rect.y
+    xe2=enemy.rect.y-34.5
+    xt1=torpedo.rect.y-10
+    xt2=torpedo.rect.y+10
+    ye=enemy.rect.x-50
+    yt=torpedo.rect.x+50-25
+    if ye<=yt and  xe1>=xt1  and xe1<=xt2:
+        return True
+    else:
+        return False
+def touch_p():
+    xe1=enemy.rect.y
+    xe2=enemy.rect.y-34.5
+    xp1=player.rect.y-13.5
+    xp2=player.rect.y+13.5
+    ye=enemy.rect.x-50
+    yp=player.rect.x+190-75
+    if ye<=yp and  xe1>=xp1  and xe1<=xp2:
+        return True
+    else:
+        return False
+
 screen = pygame.display.set_mode((1000, 600))
 FPS = 60
 flRunning = True
@@ -70,7 +98,12 @@ sprite_player.add(player)
 sprite_enemy = pygame.sprite.Group()
 enemy=Enemy()
 sprite_enemy.add(enemy)
-
+torpedo_sprite = pygame.sprite.Group()
+torpedo = Torpedo()
+torpedo_sprite.add(torpedo)
+victory=0
+bad=0
+fontObj = pygame.font.Font('freesansbold.ttf',26)
 while flRunning:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -80,15 +113,26 @@ while flRunning:
 
     sprite_player.update()
     sprite_enemy.update()
-    keystate = pygame.key.get_pressed()
-    if keystate[pygame.K_SPACE]:
-        torpedo_sprite= pygame.sprite.Group()
-        torpedo=Torpedo()
-        torpedo_sprite.add(torpedo)
+    keydown = pygame.key.get_pressed()
+    if keydown[pygame.K_SPACE]:
+
         torpedo_sprite.update()
+
         torpedo_sprite.draw(screen)
     sprite_player.draw(screen)
     sprite_enemy.draw(screen)
+    if touch_t():
+        victory=victory+1
+    if touch_p():
+        flRunning=False
+    textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
+    textRectObj = textSurfaceObj.get_rect()
+    textRectObj.center = (50, 50)
+    screen.blit(textSurfaceObj, textRectObj)
 
+    textSurfaceObj = fontObj.render(str(victory), True, BLACK,RED )
+    textRectObj = textSurfaceObj.get_rect()
+    textRectObj.center = (980, 50)
+    screen.blit(textSurfaceObj, textRectObj)
     pygame.display.flip()
 pygame.quit()
