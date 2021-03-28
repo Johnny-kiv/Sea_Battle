@@ -114,6 +114,10 @@ while flRunning:
     sprite_player.update()
     sprite_enemy.update()
     keydown = pygame.key.get_pressed()
+    if touch_t():
+        victory=victory+1
+    if touch_p():
+        flRunning=False
     if keydown[pygame.K_SPACE]:
 
         torpedo_sprite.update()
@@ -121,10 +125,7 @@ while flRunning:
         torpedo_sprite.draw(screen)
     sprite_player.draw(screen)
     sprite_enemy.draw(screen)
-    if touch_t():
-        victory=victory+1
-    if touch_p():
-        flRunning=False
+
     textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
