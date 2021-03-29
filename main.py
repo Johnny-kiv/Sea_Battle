@@ -77,7 +77,7 @@ class Bad(pygame.sprite.Sprite):
         self.image = bad_img
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.center = (900, 50)
+        self.rect.center = (950, 50)
 def touch_t():
     xe1=enemy.rect.y
     xe2=enemy.rect.y-34.5
@@ -125,7 +125,7 @@ good_sprite.add(good)
 
 bad_sprite = pygame.sprite.Group()
 bad=Bad()
-bad_sprite.add(good)
+bad_sprite.add(bad)
 victory=0
 bad=0
 fontObj = pygame.font.Font('freesansbold.ttf',26)
@@ -156,6 +156,7 @@ while flRunning:
     sprite_player.draw(screen)
     sprite_enemy.draw(screen)
     good_sprite.draw(screen)
+    bad_sprite.draw(screen)
     textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
@@ -163,7 +164,7 @@ while flRunning:
 
     textSurfaceObj = fontObj.render(str(bad), True, BLACK,RED )
     textRectObj = textSurfaceObj.get_rect()
-    textRectObj.center = (980, 50)
+    textRectObj.center = (950, 50)
     screen.blit(textSurfaceObj, textRectObj)
     pygame.display.flip()
 pygame.quit()
