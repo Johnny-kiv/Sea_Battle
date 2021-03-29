@@ -46,7 +46,7 @@ class Enemy(pygame.sprite.Sprite):
     def update(self):
         b=random.randint(0,600)
         self.rect.x -= 1
-        if self.rect.x<0:
+        if self.rect.x<0 or touch_t():
             self.rect.x=1000
             self.rect.y=b
 class  Torpedo(pygame.sprite.Sprite):
@@ -60,13 +60,14 @@ class  Torpedo(pygame.sprite.Sprite):
         self.rect.x += 1
         if self.rect.x > 1000:
             torpedo.rect.center = (player.rect.x + 175, player.rect.y + 15)
+
 def touch_t():
     xe1=enemy.rect.y
     xe2=enemy.rect.y-34.5
     xt1=torpedo.rect.y-10
     xt2=torpedo.rect.y+10
     ye=enemy.rect.x-50
-    yt=torpedo.rect.x+50-25
+    yt=torpedo.rect.x+175-25
     if ye<=yt and  xe1>=xt1  and xe1<=xt2:
         return True
     else:
@@ -77,7 +78,7 @@ def touch_p():
     xp1=player.rect.y-13.5
     xp2=player.rect.y+13.5
     ye=enemy.rect.x-50
-    yp=player.rect.x+190-75
+    yp=player.rect.x+175-75
     if ye<=yp and  xe1>=xp1  and xe1<=xp2:
         return True
     else:
@@ -116,6 +117,11 @@ while flRunning:
     keydown = pygame.key.get_pressed()
     if touch_t():
         victory=victory+1
+        torpedo.rect.center = (player.rect.x + 175, player.rect.y + 15)
+
+    if torpedo.rect.right > 1000:
+        bad=bad+1
+        torpedo.rect.center = (player.rect.x + 175, player.rect.y + 15)
     if touch_p():
         flRunning=False
     if keydown[pygame.K_SPACE]:
@@ -131,7 +137,7 @@ while flRunning:
     textRectObj.center = (50, 50)
     screen.blit(textSurfaceObj, textRectObj)
 
-    textSurfaceObj = fontObj.render(str(victory), True, BLACK,RED )
+    textSurfaceObj = fontObj.render(str(bad), True, BLACK,RED )
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (980, 50)
     screen.blit(textSurfaceObj, textRectObj)
