@@ -60,7 +60,24 @@ class  Torpedo(pygame.sprite.Sprite):
         self.rect.x += 1
         if self.rect.x > 1000:
             torpedo.rect.center = (player.rect.x + 175, player.rect.y + 15)
+class Good(pygame.sprite.Sprite):
 
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        a1 = random.randint(1, 9)
+        self.image = good_img
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.center = (50, 50)
+class Bad(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        a1 = random.randint(1, 9)
+        self.image = bad_img
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.center = (900, 50)
 def touch_t():
     xe1=enemy.rect.y
     xe2=enemy.rect.y-34.5
@@ -102,6 +119,13 @@ sprite_enemy.add(enemy)
 torpedo_sprite = pygame.sprite.Group()
 torpedo = Torpedo()
 torpedo_sprite.add(torpedo)
+good_sprite = pygame.sprite.Group()
+good=Good()
+good_sprite.add(good)
+
+bad_sprite = pygame.sprite.Group()
+bad=Bad()
+bad_sprite.add(good)
 victory=0
 bad=0
 fontObj = pygame.font.Font('freesansbold.ttf',26)
@@ -131,7 +155,7 @@ while flRunning:
         torpedo_sprite.draw(screen)
     sprite_player.draw(screen)
     sprite_enemy.draw(screen)
-
+    good_sprite.draw(screen)
     textSurfaceObj = fontObj.render(str(victory), True, BLACK, GREEN)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (50, 50)
